@@ -10,61 +10,48 @@ class SimpleMarkdown {
             throw new Exception('Markdown content exceeds maximum allowed size');
         }
 
-        // Process markdown BEFORE escaping to preserve structure
-        $text = $this->processMarkdown($text);
-
-        return $text;
+        return $this->processMarkdown($text);
     }
 
     private function processMarkdown($text) {
-        // Headers (process before escaping)
-        $text = preg_replace_callback('/^### (.+)$/m', function($m) {
-            return '<h3>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . '</h3>';
-        }, $text);
-        $text = preg_replace_callback('/^## (.+)$/m', function($m) {
-            return '<h2>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . '</h2>';
-        }, $text);
-        $text = preg_replace_callback('/^# (.+)$/m', function($m) {
-            return '<h1>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . '</h1>';
-        }, $text);
+        // Escape ALL text first to prevent XSS.
+        // Markdown syntax characters (*, #, [, ], (, ), `, .) are unaffected
+        // by htmlspecialchars, so patterns still match after escaping.
+        $text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 
-        // Code blocks (preserve literal content)
-        $text = preg_replace_callback('/```(.+?)```/s', function($m) {
-            return '<pre><code>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . '</code></pre>';
-        }, $text);
-        $text = preg_replace_callback('/`(.+?)`/', function($m) {
-            return '<code>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . '</code>';
-        }, $text);
+        // Headers (content already escaped)
+        $text = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $text);
+        $text = preg_replace('/^## (.+)$/m', '<h2>$1</h2>', $text);
+        $text = preg_replace('/^# (.+)$/m', '<h1>$1</h1>', $text);
+
+        // Code blocks (content already escaped)
+        $text = preg_replace('/```(.+?)```/s', '<pre><code>$1</code></pre>', $text);
+        $text = preg_replace('/`(.+?)`/', '<code>$1</code>', $text);
 
         // Links with XSS protection
         $text = preg_replace_callback('/\[(.+?)\]\((.+?)\)/', function($m) {
-            $linkText = htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8');
-            $url = $this->sanitizeUrl($m[2]);
-            return '<a href="' . $url . '" rel="noopener noreferrer">' . $linkText . '</a>';
+            // Decode pre-escaped URL for protocol validation, sanitizeUrl re-escapes
+            $rawUrl = html_entity_decode($m[2], ENT_QUOTES, 'UTF-8');
+            $url = $this->sanitizeUrl($rawUrl);
+            return '<a href="' . $url . '" rel="noopener noreferrer">' . $m[1] . '</a>';
         }, $text);
 
-        // Bold and italic
-        $text = preg_replace_callback('/\*\*(.+?)\*\*/U', function($m) {
-            return '<strong>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . '</strong>';
-        }, $text);
-        $text = preg_replace_callback('/\*(.+?)\*/U', function($m) {
-            return '<em>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . '</em>';
-        }, $text);
+        // Bold and italic (content already escaped)
+        $text = preg_replace('/\*\*(.+?)\*\*/U', '<strong>$1</strong>', $text);
+        $text = preg_replace('/\*(.+?)\*/U', '<em>$1</em>', $text);
 
-        // Lists
-        $text = preg_replace_callback('/^\* (.+)$/m', function($m) {
-            return '<li>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . '</li>';
-        }, $text);
-        $text = preg_replace('/(<li>.*<\/li>)/sU', '<ul>$1</ul>', $text);
+        // Horizontal rules
+        $text = preg_replace('/^---+$/m', '<hr>', $text);
 
-        // Escape remaining text and wrap in paragraphs
-        $text = preg_replace_callback('/([^<>]+)(?=<|$)/', function($m) {
-            // Don't escape if it's already part of a tag
-            if (preg_match('/<\/?(h[1-6]|ul|li|pre|code|strong|em|a)/', $m[0])) {
-                return $m[0];
-            }
-            return htmlspecialchars($m[0], ENT_QUOTES, 'UTF-8');
-        }, $text);
+        // Unordered lists (temporary markers to distinguish from ordered)
+        $text = preg_replace('/^\* (.+)$/m', '<uli>$1</uli>', $text);
+        $text = preg_replace('/(<uli>.*<\/uli>)/sU', '<ul>$1</ul>', $text);
+        $text = str_replace(['<uli>', '</uli>'], ['<li>', '</li>'], $text);
+
+        // Ordered lists
+        $text = preg_replace('/^\d+\. (.+)$/m', '<oli>$1</oli>', $text);
+        $text = preg_replace('/(<oli>.*<\/oli>)/sU', '<ol>$1</ol>', $text);
+        $text = str_replace(['<oli>', '</oli>'], ['<li>', '</li>'], $text);
 
         // Paragraphs
         $text = preg_replace('/\n\n/', '</p><p>', $text);
@@ -76,8 +63,12 @@ class SimpleMarkdown {
         $text = preg_replace('/(<\/h[1-6]>)<\/p>/', '$1', $text);
         $text = preg_replace('/<p>(<ul>)/', '$1', $text);
         $text = preg_replace('/(<\/ul>)<\/p>/', '$1', $text);
+        $text = preg_replace('/<p>(<ol>)/', '$1', $text);
+        $text = preg_replace('/(<\/ol>)<\/p>/', '$1', $text);
         $text = preg_replace('/<p>(<pre>)/', '$1', $text);
         $text = preg_replace('/(<\/pre>)<\/p>/', '$1', $text);
+        $text = preg_replace('/<p>(<hr>)/', '$1', $text);
+        $text = preg_replace('/(<hr>)<\/p>/', '$1', $text);
 
         return $text;
     }
