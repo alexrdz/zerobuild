@@ -1,0 +1,36 @@
+RewriteEngine On
+RewriteBase /
+
+# Security: Block access to sensitive files and directories
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Block direct access to markdown files
+<FilesMatch "\.md$">
+    Require all denied
+</FilesMatch>
+
+# Block direct access to JSON data files
+<FilesMatch "^(api-data|blog)/.*\.json$">
+    Require all denied
+</FilesMatch>
+
+# Block access to .git directory
+RedirectMatch 404 /\.git
+
+# Block access to composer files
+<FilesMatch "(composer\.json|composer\.lock)$">
+    Require all denied
+</FilesMatch>
+
+# Disable directory browsing
+Options -Indexes
+
+# Allow access to actual files (like css, images, js)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route everything else to index.php
+RewriteRule ^ index.php [QSA,L]

@@ -1,0 +1,30 @@
+{
+  "recipes": [
+    {
+      "id": 1,
+      "name": "Classic Guacamole",
+      "ingredients": ["avocados", "lime", "cilantro", "onion", "jalapeño"],
+      "servings": 4,
+      "vegan": true
+    },
+    {
+      "id": 2,
+      "name": "Vegan Tacos",
+      "ingredients": ["black beans", "corn tortillas", "salsa", "lettuce"],
+      "servings": 2,
+      "vegan": true
+    },
+    {
+      "id": 3,
+      "name": "Chilaquiles",
+      "ingredients": ["tortilla chips", "salsa verde", "onion", "cilantro"],
+      "servings": 3,
+      "vegan": true
+    }
+  ],
+  "meta": {
+    "category": "mexican",
+    "vegan_only": true,
+    "last_updated": "2025-01-25"
+  }
+}

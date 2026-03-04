@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "JavaScript Tip of the Day",
+      "content": "Use const and let instead of var for better scoping",
+      "date": "2025-01-25"
+    },
+    {
+      "id": 2,
+      "title": "Array Methods",
+      "content": "map(), filter(), and reduce() are your friends",
+      "date": "2025-01-24"
+    },
+    {
+      "id": 3,
+      "title": "Async/Await",
+      "content": "Modern way to handle promises cleanly",
+      "date": "2025-01-23"
+    }
+  ],
+  "meta": {
+    "total": 3,
+    "updated": "2025-01-25"
+  }
+}

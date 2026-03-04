@@ -1,0 +1,30 @@
+# Environment configuration
+.env
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+error_log
+
+# Cache
+/tmp/
+cache/
+
+# Composer (if you add it later)
+/vendor/
+composer.phar
+
+# Backup files
+*.bak
+*.backup
+*~

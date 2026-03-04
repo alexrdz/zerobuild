@@ -1,0 +1,1034 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+api-data/
+  daily-js-data.json
+  recipes.json
+assets/
+  style.css
+blog/
+  getting-started.md
+  why-simple-tools-are-better.md
+lib/
+  Router.php
+  SimpleMarkdown.php
+templates/
+  _layout.php
+  404.php
+  blog.php
+  home.php
+  test-this.php
+.htaccess
+example-api-usage.html
+index.php
+QUICKSTART.md
+README.md
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="api-data/daily-js-data.json">
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "JavaScript Tip of the Day",
+      "content": "Use const and let instead of var for better scoping",
+      "date": "2025-01-25"
+    },
+    {
+      "id": 2,
+      "title": "Array Methods",
+      "content": "map(), filter(), and reduce() are your friends",
+      "date": "2025-01-24"
+    },
+    {
+      "id": 3,
+      "title": "Async/Await",
+      "content": "Modern way to handle promises cleanly",
+      "date": "2025-01-23"
+    }
+  ],
+  "meta": {
+    "total": 3,
+    "updated": "2025-01-25"
+  }
+}
+</file>
+
+<file path="api-data/recipes.json">
+{
+  "recipes": [
+    {
+      "id": 1,
+      "name": "Classic Guacamole",
+      "ingredients": ["avocados", "lime", "cilantro", "onion", "jalapeño"],
+      "servings": 4,
+      "vegan": true
+    },
+    {
+      "id": 2,
+      "name": "Vegan Tacos",
+      "ingredients": ["black beans", "corn tortillas", "salsa", "lettuce"],
+      "servings": 2,
+      "vegan": true
+    },
+    {
+      "id": 3,
+      "name": "Chilaquiles",
+      "ingredients": ["tortilla chips", "salsa verde", "onion", "cilantro"],
+      "servings": 3,
+      "vegan": true
+    }
+  ],
+  "meta": {
+    "category": "mexican",
+    "vegan_only": true,
+    "last_updated": "2025-01-25"
+  }
+}
+</file>
+
+<file path="assets/style.css">
+/* Base Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Typography */
+h1 { margin-bottom: 2rem; color: #111; }
+h2 { margin-top: 2rem; margin-bottom: 1rem; color: #222; }
+a {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+a:hover { text-decoration: underline; }
+
+/* Home Page */
+.posts { list-style: none; }
+.post-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+.post-item:last-child { border-bottom: none; }
+.post-item a {
+    font-size: 1.25rem;
+}
+.post-date {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+/* Blog Post */
+.back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+.content h2 { margin-top: 2rem; margin-bottom: 1rem; }
+.content h3 { margin-top: 1.5rem; margin-bottom: 0.75rem; color: #333; }
+.content p { margin-bottom: 1rem; }
+.content ul { margin: 1rem 0 1rem 2rem; }
+.content li { margin-bottom: 0.5rem; }
+.content code {
+    background: #f4f4f4;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+.content pre {
+    background: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+.content pre code {
+    background: none;
+    padding: 0;
+}
+.content a:hover { text-decoration: none; }
+
+/* 404 Page */
+body.error-page {
+    padding: 4rem 1rem;
+    text-align: center;
+}
+.error-page h1 {
+    font-size: 6rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+}
+.error-page h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.error-page p { margin-bottom: 2rem; color: #666; }
+</file>
+
+<file path="blog/getting-started.md">
+---
+title: Getting Started with This Site
+date: 2025-01-25
+---
+
+# Welcome!
+
+This is your first blog post. You can write in **markdown** and it will be automatically converted to HTML.
+
+## Features
+
+This simple PHP static site generator supports:
+
+* Markdown parsing
+* Frontmatter for metadata (title, date, etc.)
+* Clean URLs
+* JSON API endpoints
+
+## Code Examples
+
+You can include `inline code` or code blocks:
+
+```
+function hello() {
+    return "Hello, world!";
+}
+```
+
+## Links
+
+You can add [links to other pages](/blog/why-simple-tools-are-better) easily.
+
+---
+
+Edit this file or create new `.md` files in the `/blog` directory to add more posts!
+</file>
+
+<file path="blog/why-simple-tools-are-better.md">
+---
+title: Why Simple Tools Are Better
+date: 2025-01-20
+---
+
+# Embracing Simplicity
+
+After years of wrestling with complex build tools and frameworks, I've come to appreciate **simple, boring technology**.
+
+## The Problem with Complexity
+
+Modern web development often feels like this:
+
+* Install 500 dependencies
+* Wait 10 minutes for `npm install`
+* Fight with webpack configs
+* Deal with breaking changes every month
+
+## A Better Way
+
+What if we just used PHP? 
+
+```
+<?php
+echo "Hello, world!";
+?>
+```
+
+No build step. No transpilation. Just *code that runs*.
+
+## Benefits
+
+1. **Deploy anywhere** - Cheap shared hosting works fine
+2. **No build time** - Edit and refresh
+3. **Easy debugging** - No source maps needed
+4. **Stable** - PHP hasn't changed much in 10 years
+
+## Conclusion
+
+Sometimes the old ways are the best ways. Not everything needs to be a single-page app with a complex build pipeline.
+
+Keep it simple. Ship faster. Sleep better.
+</file>
+
+<file path="lib/Router.php">
+<?php
+
+// Router class
+class Router {
+    private $markdown;
+    
+    public function __construct() {
+        $this->markdown = new SimpleMarkdown();
+    }
+    
+    public function route() {
+        $path = $this->getPath();
+        
+        // API routes
+        if (strpos($path, '/api/') === 0) {
+            return $this->handleAPI($path);
+        }
+        
+        // Blog/markdown routes
+        if (strpos($path, '/blog/') === 0) {
+            return $this->handleBlog($path);
+        }
+        
+        // Home page
+        if ($path === '/' || $path === '') {
+            return $this->handleHome();
+        }
+
+        // Generic pages (e.g. /about -> templates/about.php)
+        if ($this->handleGenericPage($path)) {
+            return;
+        }
+        
+        // 404
+        return $this->handle404();
+    }
+
+    private function handleGenericPage($path) {
+        $slug = trim($path, '/');
+        $slug = preg_replace('/[^a-zA-Z0-9_-]/', '', $slug); // Sanitize
+
+        if (empty($slug)) return false;
+
+        $templateFile = TEMPLATES_DIR . '/' . $slug . '.php';
+        
+        if (file_exists($templateFile)) {
+            $this->renderTemplate($slug);
+            return true;
+        }
+
+        return false;
+    }
+    
+    private function getPath() {
+        $path = $_SERVER['REQUEST_URI'] ?? '/';
+        $path = parse_url($path, PHP_URL_PATH);
+        $path = rtrim($path, '/');
+        return $path ?: '/';
+    }
+    
+    private function handleAPI($path) {
+        // Extract API endpoint: /api/daily-js-data -> daily-js-data
+        $endpoint = substr($path, 5); // Remove '/api/'
+        
+        // Sanitize endpoint name
+        $endpoint = preg_replace('/[^a-zA-Z0-9_-]/', '', $endpoint);
+        
+        // Look for JSON file
+        $jsonFile = API_DATA_DIR . '/' . $endpoint . '.json';
+        
+        if (!file_exists($jsonFile)) {
+            http_response_code(404);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Endpoint not found']);
+            return;
+        }
+        
+        // Read and serve JSON
+        $jsonData = file_get_contents($jsonFile);
+        
+        // Validate JSON
+        json_decode($jsonData);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            http_response_code(500);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid JSON data']);
+            return;
+        }
+        
+        // Set headers
+        header('Content-Type: application/json');
+        header('X-Content-Type-Options: nosniff');
+        header('Access-Control-Allow-Origin: *'); // Remove if you want CORS protection
+        
+        if (CACHE_ENABLED) {
+            header('Cache-Control: public, max-age=' . CACHE_TIME);
+        }
+        
+        echo $jsonData;
+    }
+    
+    private function handleBlog($path) {
+        // Extract slug: /blog/my-post -> my-post
+        $slug = substr($path, 6); // Remove '/blog/'
+        
+        // Sanitize slug
+        $slug = preg_replace('/[^a-zA-Z0-9_-]/', '', $slug);
+        
+        // Look for markdown file
+        $mdFile = BLOG_DIR . '/' . $slug . '.md';
+        
+        if (!file_exists($mdFile)) {
+            return $this->handle404();
+        }
+        
+        // Parse markdown
+        $markdown = file_get_contents($mdFile);
+        
+        // Extract frontmatter (optional)
+        $frontmatter = [];
+        $content = $markdown;
+        
+        if (preg_match('/^---\s*\n(.*?)\n---\s*\n(.*)$/s', $markdown, $matches)) {
+            // Parse YAML-like frontmatter
+            $frontmatterText = $matches[1];
+            $content = $matches[2];
+            
+            foreach (explode("\n", $frontmatterText) as $line) {
+                if (preg_match('/^(\w+):\s*(.+)$/', $line, $m)) {
+                    $frontmatter[trim($m[1])] = trim($m[2]);
+                }
+            }
+        }
+        
+        // Convert markdown to HTML
+        $html = $this->markdown->text($content);
+        
+        // Load template
+        $this->renderTemplate('blog', [
+            'title' => $frontmatter['title'] ?? ucwords(str_replace('-', ' ', $slug)),
+            'content' => $html,
+            'date' => $frontmatter['date'] ?? '',
+            'slug' => $slug
+        ]);
+    }
+    
+    private function handleHome() {
+        // Get list of blog posts
+        $posts = [];
+        if (is_dir(BLOG_DIR)) {
+            $files = glob(BLOG_DIR . '/*.md');
+            foreach ($files as $file) {
+                $slug = basename($file, '.md');
+                $content = file_get_contents($file);
+                
+                // Extract frontmatter
+                $title = ucwords(str_replace('-', ' ', $slug));
+                $date = '';
+                
+                if (preg_match('/^---\s*\n(.*?)\n---/s', $content, $matches)) {
+                    if (preg_match('/title:\s*(.+)$/m', $matches[1], $m)) {
+                        $title = trim($m[1]);
+                    }
+                    if (preg_match('/date:\s*(.+)$/m', $matches[1], $m)) {
+                        $date = trim($m[1]);
+                    }
+                }
+                
+                $posts[] = [
+                    'slug' => $slug,
+                    'title' => $title,
+                    'date' => $date
+                ];
+            }
+            
+            // Sort by date (newest first)
+            usort($posts, function($a, $b) {
+                return strcmp($b['date'], $a['date']);
+            });
+        }
+        
+        $this->renderTemplate('home', ['posts' => $posts]);
+    }
+    
+    private function handle404() {
+        http_response_code(404);
+        $this->renderTemplate('404', []);
+    }
+    
+    private function renderTemplate($template, $data = []) {
+        extract($data);
+        
+        $templateFile = TEMPLATES_DIR . '/' . $template . '.php';
+        
+        if (!file_exists($templateFile)) {
+            // Fallback to simple output
+            echo "Template not found: $template";
+            return;
+        }
+        
+        // Start output buffering to capture template content
+        ob_start();
+        require $templateFile;
+        $content = ob_get_clean();
+        
+        // Determine layout (default to _layout.php, but allow override)
+        $layout = $layout ?? '_layout';
+        $layoutFile = TEMPLATES_DIR . '/' . $layout . '.php';
+        
+        if (file_exists($layoutFile)) {
+            require $layoutFile;
+        } else {
+            // If no layout exists, just echo content
+            echo $content;
+        }
+    }
+}
+</file>
+
+<file path="lib/SimpleMarkdown.php">
+<?php
+
+// Simple Parsedown class (inline to avoid dependencies)
+class SimpleMarkdown {
+    public function text($text) {
+        // Security: Escape HTML to prevent XSS
+        $text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+
+        // Headers
+        $text = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $text);
+        $text = preg_replace('/^## (.+)$/m', '<h2>$1</h2>', $text);
+        $text = preg_replace('/^# (.+)$/m', '<h1>$1</h1>', $text);
+        
+        // Bold and italic
+        $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
+        $text = preg_replace('/\*(.+?)\*/', '<em>$1</em>', $text);
+        
+        // Links
+        $text = preg_replace('/\[(.+?)\]\((.+?)\)/', '<a href="$2">$1</a>', $text);
+        
+        // Code blocks
+        $text = preg_replace('/```(.+?)```/s', '<pre><code>$1</code></pre>', $text);
+        $text = preg_replace('/`(.+?)`/', '<code>$1</code>', $text);
+        
+        // Lists
+        $text = preg_replace('/^\* (.+)$/m', '<li>$1</li>', $text);
+        $text = preg_replace('/(<li>.*<\/li>)/s', '<ul>$1</ul>', $text);
+        
+        // Paragraphs
+        $text = preg_replace('/\n\n/', '</p><p>', $text);
+        $text = '<p>' . $text . '</p>';
+        
+        // Clean up empty paragraphs
+        $text = preg_replace('/<p>\s*<\/p>/', '', $text);
+        $text = preg_replace('/<p>(<h[1-6]>)/', '$1', $text);
+        $text = preg_replace('/(<\/h[1-6]>)<\/p>/', '$1', $text);
+        $text = preg_replace('/<p>(<ul>)/', '$1', $text);
+        $text = preg_replace('/(<\/ul>)<\/p>/', '$1', $text);
+        $text = preg_replace('/<p>(<pre>)/', '$1', $text);
+        $text = preg_replace('/(<\/pre>)<\/p>/', '$1', $text);
+        
+        return $text;
+    }
+}
+</file>
+
+<file path="templates/_layout.php">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($pageTitle ?? 'My Site') ?></title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body class="<?= htmlspecialchars($bodyClass ?? '') ?>">
+    
+    <?= $content ?>
+
+</body>
+</html>
+</file>
+
+<file path="templates/404.php">
+<?php 
+    $pageTitle = '404 - Page Not Found';
+    $bodyClass = 'error-page';
+?>
+
+    <h1>404</h1>
+    <h2>Page Not Found</h2>
+    <p>The page you're looking for doesn't exist.</p>
+    <a href="/">Go back home</a>
+</file>
+
+<file path="templates/blog.php">
+<?php 
+    $pageTitle = $title;
+?>
+    
+    <a href="/" class="back-link">← Back to home</a>
+    
+    <article>
+        <h1><?= htmlspecialchars($title) ?></h1>
+        
+        <?php if ($date): ?>
+            <div class="post-date"><?= htmlspecialchars($date) ?></div>
+        <?php endif; ?>
+        
+        <div class="content">
+            <?= $content ?>
+        </div>
+    </article>
+</file>
+
+<file path="templates/home.php">
+<?php 
+    $pageTitle = 'My Site';
+?>
+    
+    <h1>Welcome to My Site</h1>
+    
+    <?php if (!empty($posts)): ?>
+        <h2>Recent Posts</h2>
+        <ul class="posts">
+            <?php foreach ($posts as $post): ?>
+                <li class="post-item">
+                    <a href="/blog/<?= htmlspecialchars($post['slug']) ?>">
+                        <?= htmlspecialchars($post['title']) ?>
+                    </a>
+                    <?php if ($post['date']): ?>
+                        <div class="post-date"><?= htmlspecialchars($post['date']) ?></div>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>No posts yet. Create a markdown file in the <code>/blog</code> directory to get started!</p>
+    <?php endif; ?>
+</file>
+
+<file path="templates/test-this.php">
+<?php 
+    $pageTitle = 'Test This';
+?>
+    
+    <h1>Welcome to Test This</h1>
+</file>
+
+<file path=".htaccess">
+RewriteEngine On
+RewriteBase /
+
+# Allow access to actual files (like css, images)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route everything else to index.php
+RewriteRule ^ index.php [QSA,L]
+</file>
+
+<file path="example-api-usage.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Example - Consuming JSON Endpoints</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        h1 { margin-bottom: 2rem; }
+        .example {
+            background: #f4f4f4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .example h2 {
+            margin-bottom: 1rem;
+            color: #0066cc;
+        }
+        #tips-list, #recipes-list {
+            background: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        .tip-item, .recipe-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+        .tip-item:last-child, .recipe-item:last-child {
+            border-bottom: none;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        code {
+            background: #fff;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Consumption Example</h1>
+    
+    <div class="example">
+        <h2>JavaScript Tips API</h2>
+        <p>Fetching from: <code>/api/daily-js-data</code></p>
+        <div id="tips-list" class="loading">Loading...</div>
+    </div>
+
+    <div class="example">
+        <h2>Recipes API</h2>
+        <p>Fetching from: <code>/api/recipes</code></p>
+        <div id="recipes-list" class="loading">Loading...</div>
+    </div>
+
+    <div class="example">
+        <h2>How It Works</h2>
+        <pre><code>// Simple fetch example
+fetch('/api/daily-js-data')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        // Use the data...
+    });</code></pre>
+    </div>
+
+    <script>
+        // Fetch JavaScript tips
+        fetch('/api/daily-js-data')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('tips-list');
+                
+                if (data.data && data.data.length > 0) {
+                    container.innerHTML = data.data.map(tip => `
+                        <div class="tip-item">
+                            <strong>${tip.title}</strong><br>
+                            <small>${tip.content}</small><br>
+                            <small style="color: #666;">${tip.date}</small>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p>No tips available</p>';
+                }
+            })
+            .catch(error => {
+                document.getElementById('tips-list').innerHTML = 
+                    `<p style="color: red;">Error: ${error.message}</p>`;
+            });
+
+        // Fetch recipes
+        fetch('/api/recipes')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('recipes-list');
+                
+                if (data.recipes && data.recipes.length > 0) {
+                    container.innerHTML = data.recipes.map(recipe => `
+                        <div class="recipe-item">
+                            <strong>${recipe.name}</strong> (${recipe.servings} servings)<br>
+                            <small>Ingredients: ${recipe.ingredients.join(', ')}</small><br>
+                            <small style="color: #0a0;">🌱 Vegan</small>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p>No recipes available</p>';
+                }
+            })
+            .catch(error => {
+                document.getElementById('recipes-list').innerHTML = 
+                    `<p style="color: red;">Error: ${error.message}</p>`;
+            });
+    </script>
+</body>
+</html>
+</file>
+
+<file path="index.php">
+<?php
+/**
+ * Simple PHP Static Site Generator & Router
+ * Handles markdown pages, JSON APIs, and static routing
+ */
+
+// Configuration
+define('TEMPLATES_DIR', __DIR__ . '/templates');
+define('BLOG_DIR', __DIR__ . '/blog');
+define('API_DATA_DIR', __DIR__ . '/api-data');
+define('CACHE_ENABLED', true);
+define('CACHE_TIME', 3600); // 1 hour
+// Handle PHP built-in server routing
+if (php_sapi_name() === 'cli-server') {
+    $file = __DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    if (is_file($file)) {
+        return false;
+    }
+}
+
+// Global Security Headers
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
+header("Referrer-Policy: strict-origin-when-cross-origin");
+
+// Autoload libraries
+require_once __DIR__ . '/lib/SimpleMarkdown.php';
+require_once __DIR__ . '/lib/Router.php';
+
+// Initialize and route
+$router = new Router();
+$router->route();
+</file>
+
+<file path="QUICKSTART.md">
+# Quick Start Guide
+
+Get up and running in 5 minutes!
+
+## 1. Upload to Your Server
+
+Upload these files to your web root:
+- `index.php`
+- `.htaccess`
+- `/templates/` directory
+- `/blog/` directory  
+- `/api-data/` directory
+
+## 2. Test It Works
+
+Visit your site:
+- **Home:** `https://yoursite.com/` - Should show blog posts
+- **Blog:** `https://yoursite.com/blog/getting-started` - Should show the example post
+- **API:** `https://yoursite.com/api/daily-js-data` - Should return JSON
+
+## 3. Create Your First Blog Post
+
+Create `/blog/my-first-post.md`:
+
+```markdown
+---
+title: My First Post
+date: 2025-01-25
+---
+
+# Hello!
+
+This is my first blog post.
+```
+
+Visit: `https://yoursite.com/blog/my-first-post`
+
+## 4. Create Your First API Endpoint
+
+Create `/api-data/my-data.json`:
+
+```json
+{
+  "message": "Hello from my API!",
+  "items": [1, 2, 3]
+}
+```
+
+Visit: `https://yoursite.com/api/my-data`
+
+## 5. Customize Templates
+
+Edit `/templates/home.php` to change your home page design.
+Edit `/templates/blog.php` to change blog post layout.
+
+## That's It!
+
+You now have:
+- ✅ A working blog
+- ✅ JSON API endpoints
+- ✅ Clean URLs
+- ✅ No build process
+
+## Next Steps
+
+- **Add more posts:** Create more `.md` files in `/blog/`
+- **Add more APIs:** Create more `.json` files in `/api-data/`
+- **Customize design:** Edit the templates in `/templates/`
+- **Configure:** Edit constants at the top of `index.php`
+
+## Common Tasks
+
+### Add a new blog post
+1. Create `/blog/post-slug.md`
+2. Add frontmatter (title, date)
+3. Write in markdown
+4. Access at `/blog/post-slug`
+
+### Add a new API endpoint
+1. Create `/api-data/endpoint-name.json`
+2. Add valid JSON
+3. Access at `/api/endpoint-name`
+
+### Change cache time
+Edit `index.php`:
+```php
+define('CACHE_TIME', 7200); // 2 hours
+```
+
+### Disable CORS
+Edit `index.php`, find and comment out:
+```php
+// header('Access-Control-Allow-Origin: *');
+```
+
+## Need Help?
+
+Check the full README.md for detailed documentation!
+</file>
+
+<file path="README.md">
+# Simple PHP Static Site Generator
+
+A no-build, dependency-free PHP static site generator with markdown support and JSON API capabilities. Perfect for cheap shared hosting!
+
+## Features
+
+-   ✅ **Zero build step** - just edit and refresh
+-   ✅ **Markdown blog posts** with frontmatter support
+-   ✅ **JSON REST API** endpoints
+-   ✅ **Clean URLs** via `.htaccess` or built-in Router
+-   ✅ **Layout & Template system** for easy customization
+-   ✅ **Security Hardened** (XSS protection, Security Headers)
+-   ✅ **No dependencies** - minimal implementation
+
+## Directory Structure
+
+```
+/
+├── index.php             # Main entry point (Config & Headers)
+├── .htaccess             # Apache routing rules
+├── lib/                  # Core library code
+│   ├── Router.php        # Routing & Templating logic
+│   └── SimpleMarkdown.php # Markdown parser
+├── assets/               # Static assets
+│   └── style.css         # Global styles
+├── templates/            # HTML templates
+│   ├── _layout.php       # Master layout wrapper
+│   ├── home.php          # Home page content
+│   ├── blog.php          # Blog post content
+│   ├── 404.php           # Error content
+│   └── *.php             # Generic pages (e.g. about.php)
+├── blog/                 # Markdown blog posts
+│   └── *.md
+└── api-data/             # JSON API files
+    └── *.json
+```
+
+## Installation
+
+1.  **Clone/Upload** files to your web server root.
+2.  **Ensure mod_rewrite is enabled** (if using Apache).
+3.  **Permissions**: Ensure `blog`, `api-data`, and `templates` are readable.
+
+## Usage
+
+### Development (Local Server)
+To run locally using PHP's built-in server, **you must route through index.php**:
+
+```bash
+php -S localhost:8000 index.php
+```
+
+### Creating Pages
+
+**Blog Posts:**
+Create `.md` files in `/blog/`.
+-   Example: `/blog/my-post.md` -> Available at `/blog/my-post`
+
+**Standard Pages:**
+Create `.php` files in `/templates/`.
+-   Example: `/templates/about.php` -> Available at `/about`
+-   Example: `/templates/contact.php` -> Available at `/contact`
+
+**API Endpoints:**
+Create `.json` files in `/api-data/`.
+-   Example: `/api-data/users.json` -> Available at `/api/users`
+
+### Customizing Design
+
+-   **Global Layout:** Edit `templates/_layout.php` to change the HTML skeleton (header/footer).
+-   **Styles:** Edit `assets/style.css` for global CSS.
+-   **Page Content:** Edit specific files in `templates/`.
+
+## Security
+
+This application is configured with basic security best practices:
+-   **Headers:** generic security headers (`X-Frame-Options`, `X-Content-Type-Options`) are sent automatically.
+-   **Sanitization:** Markdown input is sanitized to prevent XSS.
+-   **Routing:** Strict path validation prevents directory traversal.
+
+## Configuration
+
+Edit constants in `index.php` to configure paths and cache settings.
+
+```php
+define('CACHE_ENABLED', true);
+define('CACHE_TIME', 3600); // 1 hour
+```
+
+## License
+
+Free to use however you want. No attribution required.
+</file>
+
+</files>
