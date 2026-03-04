@@ -68,7 +68,9 @@ class Router {
 
     private function handleAPI($path) {
         // Rate limiting check
-        $this->checkRateLimit('api');
+        if ($this->checkRateLimit('api')) {
+            return;
+        }
 
         // Extract API endpoint: /api/daily-js-data -> daily-js-data
         $endpoint = substr($path, 5); // Remove '/api/'
@@ -157,7 +159,9 @@ class Router {
 
     private function handleBlog($path) {
         // Rate limiting check
-        $this->checkRateLimit('blog');
+        if ($this->checkRateLimit('blog')) {
+            return;
+        }
 
         // Extract slug: /blog/my-post -> my-post
         $slug = substr($path, 6); // Remove '/blog/'
@@ -307,17 +311,13 @@ class Router {
         // Use safer variable passing instead of extract()
         $pageTitle = $data['title'] ?? 'My Site';
         $content = '';
+        $blogContent = $data['content'] ?? '';
         $posts = $data['posts'] ?? [];
         $title = $data['title'] ?? '';
         $date = $data['date'] ?? '';
         $author = $data['author'] ?? '';
         $slug = $data['slug'] ?? '';
         $bodyClass = $data['bodyClass'] ?? '';
-
-        // For blog content, pass it separately
-        if (isset($data['content'])) {
-            $blogContent = $data['content'];
-        }
 
         // Start output buffering to capture template content
         ob_start();
@@ -338,7 +338,7 @@ class Router {
 
     private function checkRateLimit($type) {
         if (!defined('RATE_LIMIT_ENABLED') || !RATE_LIMIT_ENABLED) {
-            return;
+            return false;
         }
 
         $ip = $this->getClientIP();
@@ -372,12 +372,14 @@ class Router {
             header('Content-Type: application/json');
             header('Retry-After: ' . $window);
             echo json_encode(['error' => 'Rate limit exceeded. Please try again later.']);
-            exit;
+            return true;
         }
 
         // Add current request
         $requests[] = $now;
         file_put_contents($cacheFile, json_encode($requests), LOCK_EX);
+
+        return false;
     }
 
     private function getClientIP() {

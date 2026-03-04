@@ -14,24 +14,47 @@ if (getenv('ENVIRONMENT') === 'production') {
     error_reporting(E_ALL);
 }
 
-// Configuration
+// Autoload libraries
+require_once __DIR__ . '/lib/Config.php';
+require_once __DIR__ . '/lib/SimpleMarkdown.php';
+require_once __DIR__ . '/lib/Router.php';
+
+// Load environment configuration first so .env values are available
+Config::load();
+
+// Configuration (uses .env values when available, otherwise defaults)
 define('TEMPLATES_DIR', __DIR__ . '/templates');
 define('BLOG_DIR', __DIR__ . '/blog');
 define('API_DATA_DIR', __DIR__ . '/api-data');
-define('CACHE_ENABLED', true);
-define('CACHE_TIME', 3600); // 1 hour
+define('CACHE_ENABLED', getenv('CACHE_ENABLED') !== false
+    ? filter_var(getenv('CACHE_ENABLED'), FILTER_VALIDATE_BOOLEAN)
+    : true);
+define('CACHE_TIME', getenv('CACHE_TIME') !== false
+    ? (int) getenv('CACHE_TIME')
+    : 3600);
 
 // Rate limiting configuration
-define('RATE_LIMIT_ENABLED', true);
-define('RATE_LIMIT_REQUESTS', 60); // requests per window
-define('RATE_LIMIT_WINDOW', 60); // seconds
+define('RATE_LIMIT_ENABLED', getenv('RATE_LIMIT_ENABLED') !== false
+    ? filter_var(getenv('RATE_LIMIT_ENABLED'), FILTER_VALIDATE_BOOLEAN)
+    : true);
+define('RATE_LIMIT_REQUESTS', getenv('RATE_LIMIT_REQUESTS') !== false
+    ? (int) getenv('RATE_LIMIT_REQUESTS')
+    : 60);
+define('RATE_LIMIT_WINDOW', getenv('RATE_LIMIT_WINDOW') !== false
+    ? (int) getenv('RATE_LIMIT_WINDOW')
+    : 60);
 
-// CORS configuration - add allowed origins here
-// Example: define('ALLOWED_ORIGINS', ['https://example.com', 'https://app.example.com']);
-define('ALLOWED_ORIGINS', []); // Empty = no CORS allowed
+// CORS configuration - parse comma-separated origins from .env or use empty array
+$_origins = getenv('ALLOWED_ORIGINS');
+define('ALLOWED_ORIGINS', !empty($_origins)
+    ? array_map('trim', explode(',', $_origins))
+    : []);
+unset($_origins);
 
 // Proxy configuration - only enable if behind trusted proxy
-define('TRUST_PROXY', false);
+define('TRUST_PROXY', getenv('TRUST_PROXY') !== false
+    ? filter_var(getenv('TRUST_PROXY'), FILTER_VALIDATE_BOOLEAN)
+    : false);
 
 // Handle PHP built-in server routing
 if (php_sapi_name() === 'cli-server') {
@@ -66,14 +89,6 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 
 // Permissions Policy
 header("Permissions-Policy: geolocation=(), microphone=(), camera=()");
-
-// Autoload libraries
-require_once __DIR__ . '/lib/Config.php';
-require_once __DIR__ . '/lib/SimpleMarkdown.php';
-require_once __DIR__ . '/lib/Router.php';
-
-// Load environment configuration
-Config::load();
 
 // Initialize and route
 try {

@@ -85,6 +85,13 @@ fetch('/api/daily-js-data')
     </div>
 
     <script>
+        // Escape HTML to prevent XSS when inserting JSON data into the DOM
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = String(text);
+            return div.innerHTML;
+        }
+
         // Fetch JavaScript tips
         fetch('/api/daily-js-data')
             .then(response => response.json())
@@ -94,9 +101,9 @@ fetch('/api/daily-js-data')
                 if (data.data && data.data.length > 0) {
                     container.innerHTML = data.data.map(tip => `
                         <div class="tip-item">
-                            <strong>${tip.title}</strong><br>
-                            <small>${tip.content}</small><br>
-                            <small style="color: #666;">${tip.date}</small>
+                            <strong>${escapeHtml(tip.title)}</strong><br>
+                            <small>${escapeHtml(tip.content)}</small><br>
+                            <small style="color: #666;">${escapeHtml(tip.date)}</small>
                         </div>
                     `).join('');
                 } else {
@@ -105,7 +112,7 @@ fetch('/api/daily-js-data')
             })
             .catch(error => {
                 document.getElementById('tips-list').innerHTML = 
-                    `<p style="color: red;">Error: ${error.message}</p>`;
+                    `<p style="color: red;">Error: ${escapeHtml(error.message)}</p>`;
             });
 
         // Fetch recipes
@@ -117,8 +124,8 @@ fetch('/api/daily-js-data')
                 if (data.recipes && data.recipes.length > 0) {
                     container.innerHTML = data.recipes.map(recipe => `
                         <div class="recipe-item">
-                            <strong>${recipe.name}</strong> (${recipe.servings} servings)<br>
-                            <small>Ingredients: ${recipe.ingredients.join(', ')}</small><br>
+                            <strong>${escapeHtml(recipe.name)}</strong> (${escapeHtml(recipe.servings)} servings)<br>
+                            <small>Ingredients: ${escapeHtml(recipe.ingredients.join(', '))}</small><br>
                             <small style="color: #0a0;">🌱 Vegan</small>
                         </div>
                     `).join('');
@@ -128,7 +135,7 @@ fetch('/api/daily-js-data')
             })
             .catch(error => {
                 document.getElementById('recipes-list').innerHTML = 
-                    `<p style="color: red;">Error: ${error.message}</p>`;
+                    `<p style="color: red;">Error: ${escapeHtml(error.message)}</p>`;
             });
     </script>
 </body>
