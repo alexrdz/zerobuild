@@ -18,6 +18,7 @@ if (getenv('ENVIRONMENT') === 'production') {
 require_once __DIR__ . '/lib/Config.php';
 require_once __DIR__ . '/lib/SimpleMarkdown.php';
 require_once __DIR__ . '/lib/Router.php';
+require_once __DIR__ . '/lib/RssFeed.php';
 
 // Load environment configuration first so .env values are available
 Config::load();
@@ -32,6 +33,9 @@ define('CACHE_ENABLED', getenv('CACHE_ENABLED') !== false
 define('CACHE_TIME', getenv('CACHE_TIME') !== false
     ? (int) getenv('CACHE_TIME')
     : 3600);
+define('RSS_MAX_ITEMS', getenv('RSS_MAX_ITEMS') !== false
+    ? (int) getenv('RSS_MAX_ITEMS')
+    : 20);
 
 // Rate limiting configuration
 define('RATE_LIMIT_ENABLED', getenv('RATE_LIMIT_ENABLED') !== false

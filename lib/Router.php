@@ -11,6 +11,11 @@ class Router {
     public function route() {
         $path = $this->getPath();
 
+        // RSS feed
+        if ($path === '/rss.xml') {
+            return $this->handleRss();
+        }
+
         // API routes
         if (strpos($path, '/api/') === 0) {
             return $this->handleAPI($path);
@@ -276,6 +281,22 @@ class Router {
         }
 
         $this->renderTemplate('home', ['posts' => $posts]);
+    }
+
+    private function handleRss() {
+        // Rate limiting check
+        if ($this->checkRateLimit('rss')) {
+            return;
+        }
+
+        header('Content-Type: application/rss+xml; charset=UTF-8');
+
+        if (CACHE_ENABLED) {
+            header('Cache-Control: public, max-age=' . CACHE_TIME);
+        }
+
+        $feed = new RssFeed();
+        echo $feed->generate();
     }
 
     private function handle404() {

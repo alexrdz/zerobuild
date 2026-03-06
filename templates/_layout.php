@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($pageTitle ?? 'My Site') ?></title>
+    <title><?= htmlspecialchars($pageTitle ?? (getenv('SITE_TITLE') ?: 'My Site')) ?></title>
     <link rel="stylesheet" href="/assets/style.css">
+    <link rel="alternate" type="application/rss+xml" title="<?= htmlspecialchars(getenv('SITE_TITLE') ?: 'My Site') ?> RSS Feed" href="/rss.xml">
 </head>
 <body class="<?= htmlspecialchars($bodyClass ?? '') ?>">
     

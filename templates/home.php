@@ -1,8 +1,9 @@
 <?php 
-    $pageTitle = 'My Site';
+    $siteTitle = getenv('SITE_TITLE') ?: 'My Site';
+    $pageTitle = $siteTitle;
 ?>
     
-    <h1>Welcome to My Site</h1>
+    <h1>Welcome to <?= htmlspecialchars($siteTitle) ?></h1>
     
     <?php if (!empty($posts)): ?>
         <h2>Recent Posts</h2>

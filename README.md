@@ -10,6 +10,7 @@ A no-build, dependency-free PHP static site generator with markdown support and 
 -   ✅ **Clean URLs** via `.htaccess` or built-in Router
 -   ✅ **Layout & Template system** for easy customization
 -   ✅ **Production-Ready Security** (XSS protection, CSP, Rate limiting, CORS control)
+-   ✅ **RSS 2.0 feed** with auto-discovery
 -   ✅ **No dependencies** - minimal implementation
 
 ## Security Features
@@ -35,6 +36,7 @@ See [SECURITY.md](SECURITY.md) for complete security documentation.
 ├── .htaccess             # Apache routing rules
 ├── lib/                  # Core library code
 │   ├── Router.php        # Routing & Templating logic
+│   ├── RssFeed.php       # RSS 2.0 feed generator
 │   └── SimpleMarkdown.php # Markdown parser
 ├── assets/               # Static assets
 │   └── style.css         # Global styles
@@ -123,6 +125,20 @@ ALLOWED_ORIGINS=https://yourdomain.com
 
 # Proxy Configuration (only if behind trusted proxy)
 TRUST_PROXY=false
+```
+
+### RSS Feed
+
+An RSS 2.0 feed is automatically available at `/rss.xml`. It lists recent blog posts and is generated on the fly from the markdown files in `/blog/`. Feed readers will auto-discover it via the `<link>` tag in `<head>`.
+
+Configure the feed via `.env`:
+
+```bash
+SITE_TITLE=My Site
+SITE_URL=https://example.com
+SITE_DESCRIPTION=A simple PHP-powered blog
+SITE_LANGUAGE=en-us
+RSS_MAX_ITEMS=20
 ```
 
 ### Legacy Configuration
