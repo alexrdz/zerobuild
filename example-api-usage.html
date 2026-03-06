@@ -85,6 +85,9 @@ fetch('/api/daily-js-data')
     </div>
 
     <script>
+        // NOTE: If the site is installed in a subdirectory (e.g. /site/),
+        // update the fetch URLs below to include the base path (e.g. '/site/api/daily-js-data').
+
         // Escape HTML to prevent XSS when inserting JSON data into the DOM
         function escapeHtml(text) {
             const div = document.createElement('div');

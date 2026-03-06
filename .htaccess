@@ -1,5 +1,7 @@
 RewriteEngine On
-RewriteBase /
+
+# No explicit RewriteBase — Apache defaults to the directory containing
+# this .htaccess file, which is correct for both root and subdirectory installs.
 
 # Security: Block access to sensitive files and directories
 <FilesMatch "^\.">

@@ -54,11 +54,17 @@ See [SECURITY.md](SECURITY.md) for complete security documentation.
 
 ## Installation
 
-1.  **Clone/Upload** files to your web server root.
+1.  **Clone/Upload** files to your web server root **or any subdirectory**.
 2.  **Ensure mod_rewrite is enabled** (if using Apache).
 3.  **Permissions**: Ensure `blog`, `api-data`, and `templates` are readable.
 4.  **Configuration**: Copy `.env.example` to `.env` and configure for your environment.
 5.  **Security**: Review [SECURITY.md](SECURITY.md) before deploying to production.
+
+### Subdirectory Installation
+
+The app auto-detects its base path, so it works whether deployed at the domain root (`https://example.com/`) or in a subdirectory (`https://example.com/site/`). No extra configuration is needed — just upload the files and go.
+
+All internal links and asset URLs are built using the `base_url()` helper, which prepends the detected `BASE_PATH` automatically. If you add new templates, use `base_url('path/to/resource')` for all internal links and asset references.
 
 ## Usage
 

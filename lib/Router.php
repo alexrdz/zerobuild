@@ -67,6 +67,14 @@ class Router {
     private function getPath() {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
         $path = parse_url($path, PHP_URL_PATH);
+
+        // Strip the base path prefix so routes are matched relative to the app root.
+        // This allows the app to work in a subdirectory (e.g. /site/blog/post -> /blog/post).
+        $basePath = defined('BASE_PATH') ? BASE_PATH : '';
+        if ($basePath !== '' && strpos($path, $basePath) === 0) {
+            $path = substr($path, strlen($basePath));
+        }
+
         $path = rtrim($path, '/');
         return $path ?: '/';
     }

@@ -23,6 +23,28 @@ require_once __DIR__ . '/lib/RssFeed.php';
 // Load environment configuration first so .env values are available
 Config::load();
 
+// Auto-detect base path for subdirectory installations.
+// When installed at the root, BASE_PATH is '' (empty string).
+// When installed in /subdir/, BASE_PATH is '/subdir'.
+$_scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+define('BASE_PATH', $_scriptDir === '/' ? '' : rtrim($_scriptDir, '/'));
+unset($_scriptDir);
+
+/**
+ * Build a URL relative to the application base path.
+ *
+ * Usage in templates:  href="<?= base_url('assets/style.css') ?>"
+ *                      href="<?= base_url('blog/' . $slug) ?>"
+ *                      href="<?= base_url() ?>"  (home page)
+ *
+ * @param  string $path  Path relative to the app root (no leading slash required).
+ * @return string        Absolute URL path including the base directory prefix.
+ */
+function base_url(string $path = ''): string {
+    $path = ltrim($path, '/');
+    return BASE_PATH . '/' . $path;
+}
+
 // Configuration (uses .env values when available, otherwise defaults)
 define('TEMPLATES_DIR', __DIR__ . '/templates');
 define('BLOG_DIR', __DIR__ . '/blog');
