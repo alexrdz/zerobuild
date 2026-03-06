@@ -2,7 +2,7 @@
     $pageTitle = $title;
 ?>
 
-    <a href="/" class="back-link">← Back to home</a>
+    <a href="<?= base_url() ?>" class="back-link">← Back to home</a>
 
     <article>
         <h1><?= htmlspecialchars($title) ?></h1>

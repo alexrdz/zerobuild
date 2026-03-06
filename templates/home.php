@@ -10,7 +10,7 @@
         <ul class="posts">
             <?php foreach ($posts as $post): ?>
                 <li class="post-item">
-                    <a href="/blog/<?= htmlspecialchars($post['slug']) ?>">
+                    <a href="<?= base_url('blog/' . htmlspecialchars($post['slug'])) ?>">
                         <?= htmlspecialchars($post['title']) ?>
                     </a>
                     <?php if ($post['date']): ?>
