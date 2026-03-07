@@ -23,12 +23,30 @@ require_once __DIR__ . '/lib/RssFeed.php';
 // Load environment configuration first so .env values are available
 Config::load();
 
-// Auto-detect base path for subdirectory installations.
-// When installed at the root, BASE_PATH is '' (empty string).
-// When installed in /subdir/, BASE_PATH is '/subdir'.
-$_scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-define('BASE_PATH', $_scriptDir === '/' ? '' : rtrim($_scriptDir, '/'));
-unset($_scriptDir);
+// auto-detect base path for subdirectory installations.
+// when installed at the root, BASE_PATH is '' (empty string).
+// when installed in /subdir/, BASE_PATH is '/subdir'.
+// if BASE_PATH is set in env, it takes priority.
+$_envBase = getenv('BASE_PATH');
+if ($_envBase !== false) {
+    $_envBase = trim((string) $_envBase);
+    if ($_envBase === '' || $_envBase === '/') {
+        define('BASE_PATH', '');
+    } else {
+        define('BASE_PATH', '/' . trim($_envBase, '/'));
+    }
+} else {
+    $_docRoot = rtrim(str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT'] ?? __DIR__) ?: __DIR__), '/');
+    $_appRoot = rtrim(str_replace('\\', '/', __DIR__), '/');
+
+    if ($_docRoot !== '' && strpos($_appRoot, $_docRoot) === 0) {
+        $_detectedBase = substr($_appRoot, strlen($_docRoot));
+        define('BASE_PATH', $_detectedBase === '' ? '' : rtrim($_detectedBase, '/'));
+    } else {
+        define('BASE_PATH', '');
+    }
+}
+unset($_envBase, $_docRoot, $_appRoot, $_detectedBase);
 
 /**
  * Build a URL relative to the application base path.
