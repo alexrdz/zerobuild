@@ -23,12 +23,30 @@ require_once __DIR__ . '/lib/RssFeed.php';
 // Load environment configuration first so .env values are available
 Config::load();
 
-// Auto-detect base path for subdirectory installations.
-// When installed at the root, BASE_PATH is '' (empty string).
-// When installed in /subdir/, BASE_PATH is '/subdir'.
-$_scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-define('BASE_PATH', $_scriptDir === '/' ? '' : rtrim($_scriptDir, '/'));
-unset($_scriptDir);
+// auto-detect base path for subdirectory installations.
+// when installed at the root, BASE_PATH is '' (empty string).
+// when installed in /subdir/, BASE_PATH is '/subdir'.
+// if BASE_PATH is set in env, it takes priority.
+$_envBase = getenv('BASE_PATH');
+if ($_envBase !== false) {
+    $_envBase = trim((string) $_envBase);
+    if ($_envBase === '' || $_envBase === '/') {
+        define('BASE_PATH', '');
+    } else {
+        define('BASE_PATH', '/' . trim($_envBase, '/'));
+    }
+} else {
+    $_docRoot = rtrim(str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT'] ?? __DIR__) ?: __DIR__), '/');
+    $_appRoot = rtrim(str_replace('\\', '/', __DIR__), '/');
+
+    if ($_docRoot !== '' && strpos($_appRoot, $_docRoot) === 0) {
+        $_detectedBase = substr($_appRoot, strlen($_docRoot));
+        define('BASE_PATH', $_detectedBase === '' ? '' : rtrim($_detectedBase, '/'));
+    } else {
+        define('BASE_PATH', '');
+    }
+}
+unset($_envBase, $_docRoot, $_appRoot, $_detectedBase);
 
 /**
  * Build a URL relative to the application base path.
@@ -49,6 +67,9 @@ function base_url(string $path = ''): string {
 define('TEMPLATES_DIR', __DIR__ . '/templates');
 define('BLOG_DIR', __DIR__ . '/blog');
 define('API_DATA_DIR', __DIR__ . '/api-data');
+define('ASSET_OPTIMIZATION', getenv('ASSET_OPTIMIZATION') !== false
+    ? filter_var(getenv('ASSET_OPTIMIZATION'), FILTER_VALIDATE_BOOLEAN)
+    : false);
 define('CACHE_ENABLED', getenv('CACHE_ENABLED') !== false
     ? filter_var(getenv('CACHE_ENABLED'), FILTER_VALIDATE_BOOLEAN)
     : true);
@@ -81,6 +102,78 @@ unset($_origins);
 define('TRUST_PROXY', getenv('TRUST_PROXY') !== false
     ? filter_var(getenv('TRUST_PROXY'), FILTER_VALIDATE_BOOLEAN)
     : false);
+
+/**
+ * Resolve an asset path to its optimized variant when available.
+ *
+ * When ASSET_OPTIMIZATION is enabled, checks for minified versions in
+ * assets/dist/ (e.g. assets/style.css → assets/dist/style.min.css).
+ * Falls back to the original path when the optimized file doesn't exist.
+ *
+ * @param  string $path  Asset path relative to the app root (e.g. 'assets/style.css').
+ * @return string        Absolute URL path via base_url().
+ */
+function asset_url(string $path): string {
+    if (ASSET_OPTIMIZATION) {
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        if (in_array($ext, ['css', 'js'])) {
+            $info    = pathinfo($path);
+            // Build optimized path: assets/[subdir/]dist/name.min.ext
+            $dir     = $info['dirname'];            // e.g. 'assets' or 'assets/js'
+            $subDir  = (strpos($dir, 'assets/') === 0)
+                ? substr($dir, strlen('assets/'))
+                : (($dir === 'assets') ? '' : $dir);
+            $distRel = 'assets/dist' . ($subDir ? '/' . $subDir : '')
+                . '/' . $info['filename'] . '.min.' . $ext;
+
+            if (file_exists(__DIR__ . '/' . $distRel)) {
+                return base_url($distRel);
+            }
+        }
+    }
+    return base_url($path);
+}
+
+/**
+ * Generate a <picture> element with WebP source and original fallback.
+ *
+ * When a .webp variant exists in assets/dist/, outputs:
+ *   <picture>
+ *     <source type="image/webp" srcset=".../image.webp">
+ *     <img src=".../image.jpg" alt="...">
+ *   </picture>
+ *
+ * When no WebP exists, outputs a plain <img> tag.
+ *
+ * @param  string $path  Image path relative to the app root (e.g. 'assets/images/photo.jpg').
+ * @param  string $alt   Alt text for the image.
+ * @param  string $attrs Additional HTML attributes for the <img> tag (e.g. 'class="hero"').
+ * @return string        HTML markup.
+ */
+function picture_tag(string $path, string $alt = '', string $attrs = ''): string {
+    $alt  = htmlspecialchars($alt, ENT_QUOTES, 'UTF-8');
+    $src  = base_url($path);
+    $attr = $attrs ? ' ' . $attrs : '';
+
+    // Check for WebP variant in dist/
+    $info   = pathinfo($path);
+    $dir    = $info['dirname'];
+    $subDir = (strpos($dir, 'assets/') === 0)
+        ? substr($dir, strlen('assets/'))
+        : (($dir === 'assets') ? '' : $dir);
+    $webpRel = 'assets/dist' . ($subDir ? '/' . $subDir : '')
+        . '/' . $info['filename'] . '.webp';
+
+    if (file_exists(__DIR__ . '/' . $webpRel)) {
+        $webpSrc = base_url($webpRel);
+        return '<picture>'
+            . '<source type="image/webp" srcset="' . $webpSrc . '">'
+            . '<img src="' . $src . '" alt="' . $alt . '"' . $attr . '>'
+            . '</picture>';
+    }
+
+    return '<img src="' . $src . '" alt="' . $alt . '"' . $attr . '>';
+}
 
 // Handle PHP built-in server routing
 if (php_sapi_name() === 'cli-server') {
