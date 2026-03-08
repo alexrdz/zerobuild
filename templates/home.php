@@ -1,10 +1,15 @@
-<?php 
+<?php
     $siteTitle = getenv('SITE_TITLE') ?: 'My Site';
     $pageTitle = $siteTitle;
 ?>
-    
-    <h1>Welcome to <?= htmlspecialchars($siteTitle) ?></h1>
-    
+
+    <header style="display: flex; gap: 1rem; align-items: center">
+      <figure>
+          <img style="max-inline-size: 5rem; height: auto" src="<?= base_url('assets/zerobuild-logo.jpeg') ?>" alt="Hero Image">
+      </figure>
+      <h1>Welcome to <?= htmlspecialchars($siteTitle) ?></h1>
+
+    </header>
     <?php if (!empty($posts)): ?>
         <h2>Recent Posts</h2>
         <ul class="posts">

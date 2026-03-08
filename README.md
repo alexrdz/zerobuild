@@ -147,6 +147,28 @@ SITE_LANGUAGE=en-us
 RSS_MAX_ITEMS=20
 ```
 
+### Asset Optimization (Optional)
+
+CSS/JS minification and image-to-WebP conversion are available but disabled by default. No dependencies are required — the optimizer uses only built-in PHP functions.
+
+1. Run the optimizer from the command line:
+
+```bash
+php optimize.php
+```
+
+This writes minified files to `assets/dist/` (e.g. `assets/style.css` → `assets/dist/style.min.css`). Images are converted to WebP if GD or Imagick is available on your server.
+
+2. Enable optimized asset serving in `.env`:
+
+```bash
+ASSET_OPTIMIZATION=true
+```
+
+When enabled, the `asset_url()` helper automatically resolves to the minified version if it exists, and falls back to the original if it doesn't. The `picture_tag()` helper serves WebP with an `<img>` fallback.
+
+Re-run `php optimize.php` whenever you update your source assets.
+
 ### Legacy Configuration
 
 You can also edit constants in `index.php` directly:

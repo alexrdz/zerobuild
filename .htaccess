@@ -26,6 +26,11 @@ RedirectMatch 404 /\.git
     Require all denied
 </FilesMatch>
 
+# Block web access to the optimization script
+<Files "optimize.php">
+    Require all denied
+</Files>
+
 # Disable directory browsing
 Options -Indexes
 
